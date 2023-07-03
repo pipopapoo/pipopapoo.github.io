@@ -169,7 +169,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2023-07-03 15:15:55 / Modified: 15:29:21" itemprop="dateCreated datePublished" datetime="2023-07-03T15:15:55+08:00">2023-07-03</time>
+      <time title="Created: 2023-07-03 15:15:55 / Modified: 15:38:46" itemprop="dateCreated datePublished" datetime="2023-07-03T15:15:55+08:00">2023-07-03</time>
     </span>
 
   
@@ -188,25 +188,25 @@
 <h3 id="0x03-reverse2"><a href="#0x03-reverse2" class="headerlink" title="0x03.reverse2"></a>0x03.reverse2</h3><p>​	在<code>reverse1</code>的同样操作下，分析代码发现，flag在for循环里面把’i’和’r’替换成’1’，flag的内容是hacking_for_fun,替换之后就是hack1ng_fo1_fun，这就是flag噜~</p>
 <h3 id="0x04-内涵的软件"><a href="#0x04-内涵的软件" class="headerlink" title="0x04.内涵的软件"></a>0x04.内涵的软件</h3><p>​	直接点开运行一下题目，发现说是忘写了一个变量，回答Y&#x2F;N之后都没发现什么，然后用ida32打开，在函数名称中看到main_0,点开<del>这谁忍得住不点开</del>，发现可能感觉应该有输入（printf）输出（scanf），赶快<code>F5</code>反汇编一下，粗略看了一下，有点猜测v5就是flag，题目又说忘写了的变量，仔细看看，v5好像是不在里面嘞，先试试v5…芜湖flag就是49d3c93df25caad81232130f3d2ebfad  这就是flag噜~</p>
 <h3 id="0x05-新年快乐"><a href="#0x05-新年快乐" class="headerlink" title="0x05.新年快乐"></a>0x05.新年快乐</h3><p>​	这个需要脱壳一下（用<code>ExeinfoPe</code>检测），然后再<code>shift</code>加<code>F12</code>查看所有字符串，再同上的一系列操作，反汇编之后，很明显的发现flag就是HappyNewYear!，这就是flag噜~</p>
-<h3 id="0x06-xor"><a href="#0x06-xor" class="headerlink" title="0x06.xor"></a>0x06.xor</h3><p>​	先查看一下发现 64位无壳(自从做了0x05新年快乐之后就习惯性的拖入ExeinfoPe看看多少位有没有壳) ~~就是说分别拖入ida64 和ida32有点笨~~~<br><img src="D:\cv\blog\hexo-blog\source_posts\Buu-0\image-20230701221241411.png"></p>
-<p>​	将xor拖入ida64 点进main函数<br><img src="D:\cv\blog\hexo-blog\source_posts\Buu-0\image-20230701221401829.png"></p>
+<h3 id="0x06-xor"><a href="#0x06-xor" class="headerlink" title="0x06.xor"></a>0x06.xor</h3><p>​	先查看一下发现 64位无壳(自从做了0x05新年快乐之后就习惯性的拖入ExeinfoPe看看多少位有没有壳) ~~就是说分别拖入ida64 和ida32有点笨~~~<br><img src="/2023/07/03/Buu-0/1.png"></p>
+<p>​	将xor拖入ida64 点进main函数<br><img src="/2023/07/03/Buu-0/2.png"></p>
 <p>​	strncmp比较的是_b和global  strlen说明字符串是33位 </p>
 <p>   跟进一下global</p>
-<p><img src="D:\cv\blog\hexo-blog\source_posts\Buu-0\image-20230701222039946.png"><br>    写个脚本</p>
+<p><img src="/2023/07/03/Buu-0/3.png"><br>    写个脚本</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">s = [&#x27;f&#x27;,0xA,&#x27;k&#x27;,0xC,&#x27;w&#x27;,&#x27;&amp;&#x27;,&#x27;O&#x27;,&#x27;.&#x27;,&#x27;@&#x27;,0x11,&#x27;x&#x27;,0xD,&#x27;Z&#x27;,&#x27;;&#x27;, &#x27;U&#x27;,0x11,&#x27;p&#x27;,0x19,&#x27;F&#x27;,0x1F,&#x27;v&#x27;,&#x27;&quot;&#x27;,&#x27;M&#x27;,&#x27;#&#x27;,&#x27;D&#x27;,0xE,&#x27;g&#x27;,6,&#x27;h&#x27;,0xF,&#x27;G&#x27;,&#x27;2&#x27;,&#x27;O&#x27;]</span><br><span class="line">flag = &#x27;f&#x27;</span><br><span class="line">for i in range(1,len(s)):</span><br><span class="line">	if(isinstance(s[i],int)):#将数字转化为字符</span><br><span class="line">		s[i] = chr(s[i])</span><br><span class="line">for i in range(1,len(s)):</span><br><span class="line">	flag += chr(ord(s[i]) ^ ord(s[i-1]))</span><br><span class="line"></span><br><span class="line">print(flag)</span><br></pre></td></tr></table></figure>
 
-<p><img src="D:\cv\blog\hexo-blog\source_posts\Buu-0\image-20230701222514283.png"></p>
+<p><img src="/2023/07/03/Buu-0/4.png"></p>
 <p><code>flag&#123;QianQiuWanDai_YiTongJiangHu&#125;</code></p>
 <h3 id="0x07-helloword"><a href="#0x07-helloword" class="headerlink" title="0x07.helloword"></a>0x07.helloword</h3><p>​	首先看文件后缀是apk，把他丢到jadx-gui</p>
-<p>​	<img src="D:\cv\blog\hexo-blog\source_posts\Buu-0\image-20230703130044059.png"></p>
+<p>​	<img src="/2023/07/03/Buu-0/5.png"></p>
 <p>​	然后第一次用jadx-gui没啥头绪 先<code>ctrl</code>+<code>F</code>  <del>我们试试main</del> 直接搜flag</p>
-<p><img src="C:\Users\pipopapoo\AppData\Roaming\Typora\typora-user-images\image-20230703130449220.png"></p>
+<p><img src="/2023/07/03/Buu-0/6.png"></p>
 <p>也可以直接找到主函数（但我没学过Java OmO~）</p>
-<p><img src="C:\Users\pipopapoo\AppData\Roaming\Typora\typora-user-images\image-20230703130622261.png"></p>
+<p><img src="/2023/07/03/Buu-0/7.png"></p>
 <p><code>flag&#123;7631a988259a00816deda84afb29430a&#125;</code></p>
 <h3 id="0x08-reverse3"><a href="#0x08-reverse3" class="headerlink" title="0x08.reverse3"></a>0x08.reverse3</h3><p>​	</p>
 <hr>
-<h6 id=""><a href="#" class="headerlink" title=""></a></h6>
+<h6 id><a href="#" class="headerlink" title></a></h6>
       
     </div>
 
