@@ -167,9 +167,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2023-07-03 15:15:55 / Modified: 15:38:46" itemprop="dateCreated datePublished" datetime="2023-07-03T15:15:55+08:00">2023-07-03</time>
+      <time title="Created: 2023-07-03 15:15:55" itemprop="dateCreated datePublished" datetime="2023-07-03T15:15:55+08:00">2023-07-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-07-04 22:56:33" itemprop="dateModified" datetime="2023-07-04T22:56:33+08:00">2023-07-04</time>
     </span>
 
   
@@ -204,7 +210,23 @@
 <p>也可以直接找到主函数（但我没学过Java OmO~）</p>
 <p><img src="/2023/07/03/Buu-0/7.png"></p>
 <p><code>flag&#123;7631a988259a00816deda84afb29430a&#125;</code></p>
-<h3 id="0x08-reverse3"><a href="#0x08-reverse3" class="headerlink" title="0x08.reverse3"></a>0x08.reverse3</h3><p>​	</p>
+<h3 id="0x08-reverse3"><a href="#0x08-reverse3" class="headerlink" title="0x08.reverse3"></a>0x08.reverse3</h3><p>​		按照惯例先查一下 </p>
+<p>​	<img src="/2023/07/03/Buu-0/8.png"></p>
+<p>​	32位无壳 然后拖入ida 进行一大顿常规操作</p>
+<p>​	先看一下字符串</p>
+<p><img src="/2023/07/03/Buu-0/9.png"></p>
+<p>​	浅看一下 发现了一个base64编码 </p>
+<p>​	还有一个flag的函数 点进去反汇编看看</p>
+<p><img src="/2023/07/03/Buu-0/10.png"></p>
+<p>​	再点开<code>sub_4110BE</code>看看 发现确实是base64编码</p>
+<p><img src="/2023/07/03/Buu-0/11.png"></p>
+<p>​	总的来说就是输入一个字符串，然后对字符串做了一个base64加密，该加密的值赋给了v4，v4被赋给了Destination，Destination做了一个for循环,该循环对Destination做了变化，最后倘若Destination与Str2相等则输出正确的flag</p>
+<p>​	所以我们将str2做逆向还原，再做一个base64解码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">import base64</span><br><span class="line"></span><br><span class="line">Destination = &quot;e3nifIH9b_C@n@dH&quot;</span><br><span class="line">flag = &quot;&quot;</span><br><span class="line"></span><br><span class="line">for i in range(len(Destination)):</span><br><span class="line">    flag += chr(ord(Destination[i])-i)</span><br><span class="line">print(base64.b64decode(flag))</span><br></pre></td></tr></table></figure>
+
+<p>运行结果如下</p>
+<p><img src="/2023/07/03/Buu-0/12.png"></p>
+<p><code>flag&#123;i_l0ve_you&#125;</code></p>
 <hr>
 <h6 id><a href="#" class="headerlink" title></a></h6>
       
